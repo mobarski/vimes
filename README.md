@@ -8,7 +8,7 @@
 
 Inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/P-code_machine) from Niklaus Wirth's book "Algorithms + Data Structures = Programs" (1976).
 
-**V1 differences**:
+**Differences**:
 
 - access restricted only to the local variables (level==0)
 - two conditional jump instructions (JZ and JNZ)
@@ -17,4 +17,5 @@ Inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/P-code_machine
   - HALT - stop execution
 - new instruction (EXT) that extends VM with new functionality
   - AST - assert equal (a b --)
-  - ARG - program argument (a -- b)
+  - ARG - get value of command-line program argument (a -- b)
+
