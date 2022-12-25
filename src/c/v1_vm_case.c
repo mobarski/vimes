@@ -52,6 +52,7 @@ int run(int* code, int n, int mem_size) {
 					case AST:  printf("AST not implemented"); goto STOP; // TODO
 					case ARG:  printf("ARG not implemented"); goto STOP; // TODO
 				}
+				break;
 		}
 	}
 	STOP:
