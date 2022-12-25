@@ -6,17 +6,21 @@
 
 ## Next
 
-- ARG as OPR
+- C: dt calculation
+- C: memory allocation from the heap
+- C: comments for the registers
 
 ## To do
 
-- code passing to VM in C
+- C: passing code to VM
+- C: EXT ARG
 - rethink assert / check
 - all tests into files + assertions
-- input/output/system/os to separate opcode (ARG, DOT, AST, EMIT)
 
 ## Done
 
+- input/output/system/os to separate opcode (ARG, DOT, AST, EMIT)
+- ARG as OPR
 - vm / languages - directory structure
 - print VMSTATS after HALT/ERROR (ip, sp, rp, fp, ic, tos, time-t0)
 - autogenerate opcodes.h
