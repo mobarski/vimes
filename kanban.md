@@ -6,9 +6,7 @@
 
 ## Next
 
-- C: dt calculation
-- C: memory allocation from the heap
-- C: comments for the registers
+- C: CLI parameters
 
 ## To do
 
@@ -19,6 +17,9 @@
 
 ## Done
 
+- C: dt calculation
+- C: comments for the registers
+- C: memory allocation from the heap
 - input/output/system/os to separate opcode (ARG, DOT, AST, EMIT)
 - ARG as OPR
 - vm / languages - directory structure
