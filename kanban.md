@@ -6,20 +6,23 @@
 
 ## Next
 
-- C: CLI parameters
+- c: CLI parameters
 
 ## To do
 
-- C: passing code to VM
-- C: EXT ARG
+- c: EXT ARG
+- c: run benchmarks 
+- c: implementation - replicated switch
 - rethink assert / check
 - all tests into files + assertions
 
 ## Done
 
-- C: dt calculation
-- C: comments for the registers
-- C: memory allocation from the heap
+- c: passing code to VM
+- asm: generating binary pcode
+- c: dt calculation
+- c: comments for the registers
+- c: memory allocation from the heap
 - input/output/system/os to separate opcode (ARG, DOT, AST, EMIT)
 - ARG as OPR
 - vm / languages - directory structure

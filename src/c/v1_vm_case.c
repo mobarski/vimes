@@ -53,8 +53,8 @@ int run(int* code, int n, int mem_size) {
 				ip+=2;
 				switch (a) {
 					case DOT:  printf("%d\n",mem[sp-1]); break;
-					case AST:  printf("AST not implemented"); goto STOP; // TODO
-					case ARG:  printf("ARG not implemented"); goto STOP; // TODO
+					case AST:  printf("AST not implemented\n"); goto STOP; // TODO
+					case ARG:  printf("ARG not implemented\n"); goto STOP; // TODO
 				}
 				break;
 		}
@@ -67,7 +67,25 @@ int run(int* code, int n, int mem_size) {
 	return ic;
 }
 
-int main(int argc, char** argv, char** env) {
-	int code[] = {LIT,40, LIT,2, OPR,ADD, EXT,DOT, JMP,0, OPR,HALT};
-	run(code, 20000000, 1000000);
+int* get_code(char* path) {
+	FILE *fp = fopen(path,"r");
+	// TODO: handle errors (fp==NULL)
+	fseek(fp,0,SEEK_END);
+	int code_size = ftell(fp) / sizeof(int);
+	printf("code size: %d\n", code_size); // XXX
+	fseek(fp,0,SEEK_SET);
+	int* code = calloc(code_size, sizeof(int));
+	// TODO: handle errors (code==NULL)
+	size_t nread = fread(code, sizeof(int), code_size, fp);
+	// TODO: handle errors (nread<code_size)
+	fclose(fp);
+	return code;
+}
+
+int main(int argc, char** argv, char** environ) {
+	int* code = get_code("../../bench/v1/pcode/fibo.rom");
+	//int code[] = {LIT,40, LIT,2, OPR,ADD, EXT,DOT, JMP,0, OPR,HALT};
+	run(code, 100, 1000);
+	free(code);
+	return 0;
 }

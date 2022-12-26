@@ -1,4 +1,5 @@
 import v1_vm as vm
+from array import array
 import re
 
 # get opcodes
@@ -8,11 +9,19 @@ for name,v in vars(vm).items():
 		opcode[name] = v
 
 def gen_c_header(path):
+	"""generate c header file with opcode values"""
 	with open(path,'w') as f:
 		for name,v in opcode.items():
 			print(f'#define {name} {v}', file=f)
 
+def gen_pcode_file(text, path):
+	"""generate pcode file"""
+	pcode = asm(text)
+	a = array('i', pcode)
+	a.tofile(open(path,'wb'))
+
 def asm(text):
+	"""compile text into p-code -> list[int]"""
 	lines = text.split('\n')
 	# first pass - collect labels
 	label = {}
@@ -57,3 +66,6 @@ def asm(text):
 
 if __name__=="__main__":
 	gen_c_header('../c/v1_opcodes.h')
+	for name in ['fibo','loops6','random','ackermann_jz','ackermann_jnz']:
+		gen_pcode_file(open(f'../../bench/v1/{name}.asm').read(), f'../../bench/v1/pcode/{name}.rom')
+	
