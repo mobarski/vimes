@@ -4,14 +4,13 @@
 
 ## Active
 
-
-
 ## Next
 
-- c: EXT ARG
+- c: VM configuration to struct
 
 ## To do
 
+- c: VM core into separate file 
 - c: error handling
 - c: run benchmarks 
 - c: implementation - replicated switch
@@ -22,6 +21,7 @@
 
 ## Done
 
+- c: EXT ARG via environ (P1, P2, ... P7)
 - asm: ';' as comment (better handling in text editors)
 - c: CLI parameters (path, mem_size)
 - c: passing code to VM

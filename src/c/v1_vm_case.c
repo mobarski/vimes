@@ -15,6 +15,9 @@ int run(int* code, int n, int mem_size) {
 	clock_t start = clock();
 	clock_t end;
 	
+	int t; // temporary value (ie for top-of-stack)
+	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
+	
 	for (;;ic++) {
 		if ((n>0) && (ic >= n)) break;
 		
@@ -56,7 +59,11 @@ int run(int* code, int n, int mem_size) {
 				switch (a) {
 					case DOT:  printf("%d\n",mem[sp-1]); break;
 					case AST:  printf("AST not implemented\n"); goto STOP; // TODO
-					case ARG:  printf("ARG not implemented\n"); goto STOP; // TODO
+					case ARG:
+						t = mem[sp-1];
+						mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;
+						//printf("DEBUG: ARG %d %s = %d\n", t, args[t], mem[sp-1]); // XXX
+						break;
 				}
 				break;
 		}
@@ -86,7 +93,8 @@ int* get_code(char* path) {
 	return code;
 }
 
-int main(int argc, char** argv, char** environ) {
+extern char** environ;
+int main(int argc, char** argv) {
 	if (argc<2) { goto ERROR; }
 	
 	// ARG: code_path
@@ -107,14 +115,13 @@ int main(int argc, char** argv, char** environ) {
 	}
 	
 	// ARG: n
-	int n = 100;
+	int n = 0;
 	if (argc>=4) {
 		n = strtol(argv[3], NULL, 10);
 		if ((errno!=0)||(n<0)) {
 			printf("ERROR: invalid value for n '%s'\n", argv[3]);
 			goto ERROR;
 		}
-
 	}
 
 	// RUN
