@@ -1,15 +1,15 @@
-# http://dada.perl.it/shootout/random.html
+; http://dada.perl.it/shootout/random.html
 
-# TODO: loop
+; TODO: loop
 
 main:
-	LIT 42 # SEED
+	LIT 42 ; SEED
 	CAL gen-random EXT DOT
 	CAL gen-random EXT DOT
 	CAL gen-random EXT DOT
 	OPR HLT
 
-# (last -- new)
+; (last -- new)
 gen-random:
 	LIT 3877
 	OPR MUL

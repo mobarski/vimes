@@ -31,7 +31,7 @@ def asm(text):
 		for token in line_tokens:
 			if not token: continue
 			# comments
-			if token[0]=='#': break
+			if token[0]==';': break
 			# labels
 			elif token[-1]==':':
 				name = token[:-1]

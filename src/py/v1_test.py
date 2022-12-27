@@ -62,7 +62,7 @@ OPR HALT
 """)
 
 test('lit mul add dot', """
-	LIT 10 #ok
+	LIT 10 ;ok
 xxx:
 	LIT 4
 	OPR MUL
@@ -89,13 +89,13 @@ test('lt', """
 
 
 test('random',"""
-LIT 42 # SEED
+LIT 42 ; SEED
 CAL gen-random EXT DOT
 CAL gen-random EXT DOT
 CAL gen-random EXT DOT
 OPR HALT
 
-# (last -- new)
+; (last -- new)
 gen-random:
 	LIT 3877
 	OPR MUL

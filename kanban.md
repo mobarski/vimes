@@ -4,10 +4,11 @@
 
 ## Active
 
+
+
 ## Next
 
 - c: EXT ARG
-- asm: ';' as comment
 
 ## To do
 
@@ -21,6 +22,7 @@
 
 ## Done
 
+- asm: ';' as comment (better handling in text editors)
 - c: CLI parameters (path, mem_size)
 - c: passing code to VM
 - asm: generating binary pcode
