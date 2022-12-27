@@ -10,7 +10,7 @@ int run(int* code, int n, int mem_size) {
 	int sp = 0;  // stack pointer
 	int rp = mem_size-1; // return stack pointer (ret-stack grows down)
 	int fp = rp; // frame pointer
-	int ic = 0;  // instruction counter 
+	long long ic = 0;  // instruction counter (64-bit)
 	int *mem = calloc(mem_size, sizeof(int));
 	clock_t start = clock();
 	clock_t end;
@@ -71,7 +71,7 @@ int run(int* code, int n, int mem_size) {
 	STOP:
 	end = clock();
 	double dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
-	printf("STATUS: ip %d sp %d rp %d fp %d ic %d dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms,mem[sp-1]);
+	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms,mem[sp-1]);
 	free(mem);
 	return ic;
 }

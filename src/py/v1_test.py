@@ -24,7 +24,7 @@ def load(path):
 test('ackermann JNZ', load('../../bench/v1/ackermann_jnz.asm'), argv=[3,3], trace=False, mem_size=100_000, n=0)
 test('ackermann JZ',  load('../../bench/v1/ackermann_jz.asm'),  argv=[3,3], trace=False, mem_size=100_000, n=0)
 
-test('fibo', load('../../bench/v1/fibo.asm'), argv=[20], n=0, mem_size=100_000)
+test('fibo', load('../../bench/v1/fibo.asm'), argv=[25], n=0, mem_size=100_000)
 
 vm=test('randomN', load('../../bench/v1/random.asm'), argv=[2000], n=0)
 
