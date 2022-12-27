@@ -3,6 +3,8 @@
 #include "time.h"
 #include "v1_opcodes.h"
 
+// === CORE =======================================================================================================================
+
 int run(int* code, int n, int mem_size) {
 	int ip = 0;  // instruction pointer
 	int sp = 0;  // stack pointer
@@ -67,12 +69,14 @@ int run(int* code, int n, int mem_size) {
 	return ic;
 }
 
+// === END OF CORE ================================================================================================================
+
+
 int* get_code(char* path) {
 	FILE *fp = fopen(path,"r");
 	// TODO: handle errors (fp==NULL)
 	fseek(fp,0,SEEK_END);
 	int code_size = ftell(fp) / sizeof(int);
-	printf("code size: %d\n", code_size); // XXX
 	fseek(fp,0,SEEK_SET);
 	int* code = calloc(code_size, sizeof(int));
 	// TODO: handle errors (code==NULL)
@@ -83,9 +87,42 @@ int* get_code(char* path) {
 }
 
 int main(int argc, char** argv, char** environ) {
-	int* code = get_code("../../bench/v1/pcode/fibo.rom");
-	//int code[] = {LIT,40, LIT,2, OPR,ADD, EXT,DOT, JMP,0, OPR,HALT};
-	run(code, 100, 1000);
+	if (argc<2) { goto ERROR; }
+	
+	// ARG: code_path
+	int* code = get_code(argv[1]);
+	if (code==NULL) {
+		printf("ERROR: invalid rom path '%s'\n", argv[1]);
+		goto ERROR;
+	}
+	
+	// ARG: mem_size
+	int mem_size = 1024;
+	if (argc>=3) {
+		mem_size = strtol(argv[2], NULL, 10);
+		if ((errno!=0)||(mem_size<=0)) {
+			printf("ERROR: invalid value for mem_size '%s'\n", argv[2]);
+			goto ERROR;
+		}
+	}
+	
+	// ARG: n
+	int n = 100;
+	if (argc>=4) {
+		n = strtol(argv[3], NULL, 10);
+		if ((errno!=0)||(n<0)) {
+			printf("ERROR: invalid value for n '%s'\n", argv[3]);
+			goto ERROR;
+		}
+
+	}
+
+	// RUN
+	run(code, n, mem_size);
 	free(code);
 	return 0;
+
+ERROR:
+	printf("USAGE: vm rom_path [mem_size=1024] [n_iters=0]\n");
+	return 1;
 }

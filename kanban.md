@@ -6,18 +6,22 @@
 
 ## Next
 
-- c: CLI parameters
+- c: EXT ARG
+- asm: ';' as comment
 
 ## To do
 
-- c: EXT ARG
+- c: error handling
 - c: run benchmarks 
 - c: implementation - replicated switch
+- asm: inline comments (for forth-like stack notation)
 - rethink assert / check
 - all tests into files + assertions
+- c: mmap code (don'ht allocate mem)
 
 ## Done
 
+- c: CLI parameters (path, mem_size)
 - c: passing code to VM
 - asm: generating binary pcode
 - c: dt calculation
