@@ -8,7 +8,7 @@ def test(name, asm_text, argv=[], n=1000, mem_size=None, trace=False):
 	code = asm(asm_text)
 	vm = VM(code, argv=argv, trace=trace, mem_size=mem_size)
 	try:
-		vm.run(n)
+		vm.run(n, status=True)
 	except Exception as e:
 		print('ERROR:', ''.join(tb.format_exception(e)))
 		print('code',vm.code)

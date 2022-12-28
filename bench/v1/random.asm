@@ -8,7 +8,7 @@ main:
 		loop: LOD 0 JZ @end-loop
 		CAL gen-random
 		LOD 0 LIT 1 OPR SUB STO 0 JMP @loop end-loop:
-	EXT DOT
+	;EXT DOT
 	OPR HALT
 
 ; (last -- new)

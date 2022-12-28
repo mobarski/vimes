@@ -75,7 +75,7 @@ class VM:
 				name = x[4:].upper()
 				self.fun_by_ext[globals()[name]] = getattr(self,x)
 
-	def run(self, n=0):
+	def run(self, n=0, status=False):
 		t0 = now()
 		while self.running:
 			self.ic += 1
@@ -89,7 +89,9 @@ class VM:
 		# output VM status
 		dt_ms = 1000*(now() - t0)
 		tos = self.mem[self.sp-1]
-		print('STATUS: ip', self.ip, 'sp', self.sp, 'rp', self.rp, 'fp', self.fp, 'ic', self.ic, 'dt', int(dt_ms), 'ms', 'tos', tos)
+		if status:
+			print('STATUS: ip', self.ip, 'sp', self.sp, 'rp', self.rp, 'fp', self.fp, 'ic', self.ic, 'dt', int(dt_ms), 'ms', 'tos', tos)
+		return dict(ip=self.ip, sp=self.sp, rp=self.rp, fp=self.fp, ic=self.ic, dt=int(dt_ms), tos=tos)
 
 	# INSTRUCTIONS
 	

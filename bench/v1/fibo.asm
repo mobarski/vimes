@@ -2,7 +2,7 @@
 
 LIT 1 EXT ARG
 CAL fib
-EXT DOT
+;EXT DOT
 OPR HALT
 
 fib: ; (N -- x)

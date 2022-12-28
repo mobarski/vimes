@@ -10,6 +10,7 @@
 
 ## To do
 
+- vm: INC VAR VAL (loops optimization)
 - c: VM core into separate file
 - c: VM configuration to struct 
 - c: error handling 
