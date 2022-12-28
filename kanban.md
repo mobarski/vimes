@@ -7,11 +7,11 @@
 ## Next
 
 - c: first benchmarks
-- c: VM configuration to struct
 
 ## To do
 
-- c: VM core into separate file 
+- c: VM core into separate file
+- c: VM configuration to struct 
 - c: error handling 
 - c: implementation - replicated switch
 - asm: inline comments (for forth-like stack notation)
