@@ -6,7 +6,7 @@
 // === CORE =======================================================================================================================
 
 #define DISPATCH \
-	if ((n>0) && (ic >= n)) break; \
+	if ((n>0) && (ic >= n)) goto _STOP; \
 	ic++; \
 	op = code[ip]; \
 	a = code[ip+1]; \
@@ -60,7 +60,7 @@ int run(int* code, int n, int mem_size) {
 	int t; // temporary value (ie for top-of-stack)
 	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	
-	for (;;) {
+	{
 		int op;
 		int a;
 		
