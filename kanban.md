@@ -4,13 +4,16 @@
 
 ## Active
 
+- first benchmarks
+- c: direct threading
+
 ## Next
 
-- c: first benchmarks
+- c: option to disable ic limiter (+15% boost)
+- c: option to disable ic
 
 ## To do
 
-- bench: .md reporting
 - c: VM core into separate file
 - c: VM configuration to struct 
 - c: error handling 
@@ -21,6 +24,7 @@
 
 ## Done
 
+- bench: .md reporting
 - bench: simple tsv reporting
 - c: gcc compilation
 - c: implementation - replicated switch
