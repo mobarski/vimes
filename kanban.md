@@ -10,11 +10,10 @@
 
 ## To do
 
-- vm: INC VAR VAL (loops optimization)
+- bench: .md reporting
 - c: VM core into separate file
 - c: VM configuration to struct 
 - c: error handling 
-- c: implementation - replicated switch
 - asm: inline comments (for forth-like stack notation)
 - rethink assert / check
 - all tests into files + assertions
@@ -22,8 +21,11 @@
 
 ## Done
 
+- bench: simple tsv reporting
+- c: gcc compilation
+- c: implementation - replicated switch
+- vm: INC VAR VAL (loops optimization)
 - c: fixed INC
-
 - rename HALT -> HLT
 - c: ic uses 64 bits
 - c: EXT ARG via environ (P1, P2, ... P7)

@@ -1,22 +1,18 @@
 import statistics as stat
 import re
 import os
+import sys
+from time import time as now
 
 from tqdm import tqdm
 
-def test_c(rom_name, args=[], mem_size=1024, rom_dir='../../bench/v1/pcode'):
+def test_c(rom_name, args=[], mem_size=1024, rom_dir='../../bench/v1/pcode', vm=None):
 	add_args_to_env(args)
 	os.chdir('../c/')
-	output = os.popen(f'v1_vm_case.exe {rom_dir}/{rom_name}.rom {mem_size}').read()
+	output = os.popen(f'{vm} {rom_dir}/{rom_name}.rom {mem_size}').read()
 	return postproc(output)
 
-def test_c2(rom_name, args=[], mem_size=1024, rom_dir='../../bench/v1/pcode'):
-	add_args_to_env(args)
-	os.chdir('../c/')
-	output = os.popen(f'v1_vm_repl_case.exe {rom_dir}/{rom_name}.rom {mem_size}').read()
-	return postproc(output)
-
-def test_py(asm_name, args=[], mem_size=1024, asm_dir='../../bench/v1'):
+def test_py(asm_name, args=[], mem_size=1024, asm_dir='../../bench/v1', vm=None):
 	from v1_vm import VM
 	from v1_asm import asm
 	asm_path = f"{asm_dir}/{asm_name}.asm"
@@ -36,19 +32,23 @@ def postproc(output):
 	#print(status) # xxx
 	return status
 
-def bench(label, test_fun, rom_name, args=[], mem_size=1024, repeat=30):
+def bench(vm, rom_name, args=[], mem_size=1024, repeat=30):
 	dt_list = []
-	for _ in tqdm(range(repeat), desc=f"{rom_name} {args}", leave=False):
-		dt = test_fun(rom_name, args, mem_size=mem_size)['dt']
+	test_fun = test_py if '_vm_py' in vm else test_c 
+	for _ in tqdm(range(repeat), desc=f"{vm} {rom_name} {args}", leave=True):
+		dt = test_fun(rom_name, args, mem_size=mem_size, vm=vm)['dt']
 		dt_list += [dt]
 	mean = stat.mean(dt_list)
 	stdev = stat.stdev(dt_list)
-	print(label, rom_name, args, f"{mean:0.1f}", f"{stdev:0.1f}", repeat, dt_list, sep='\t')
+	_min = min(dt_list)
+	print(vm, rom_name, args, f"{_min:0.1f}", f"{mean:0.1f}", f"{stdev:0.1f}", repeat, dt_list, sep='\t', flush=True)
 
 # =================================================================================================================================
 
 if __name__=="__main__":
-	print('rom','args','mean_ms','stdev','runs','dt_list',sep='\t')
+	f=open(f'../../bench/report_{int(now())}.tsv.xls','w')
+	sys.stdout=f
+	print('vm','rom','args','best_ms','mean_ms','stdev','runs','dt_list',sep='\t')
 	# bench('py',  test_py, 'ackermann_jnz',  [3,5],    repeat=3, mem_size=100_000)
 	# bench('tc',  test_c,  'ackermann_jnz',  [3,5],    repeat=3, mem_size=100_000)
 	# bench('py',  test_py, 'ackermann_jz',   [3,5],    repeat=3, mem_size=100_000)
@@ -59,15 +59,28 @@ if __name__=="__main__":
 	# bench('py',  test_py, 'random_inc',     [30_000], repeat=10)
 	# bench('tc',  test_c,  'random',         [30_000], repeat=10)
 	# bench('tc',  test_c,  'random_inc',     [30_000], repeat=10)
-	bench('tc',  test_c,  'loops6',         [14],      repeat=10)
-	bench('tc',  test_c,  'loops6_inc',     [14],      repeat=10)
-	bench('tc',  test_c,  'loops6_inc_inc', [14],      repeat=10)
-	bench('tc2', test_c2, 'loops6',         [14],      repeat=10)
-	bench('tc2', test_c2, 'loops6_inc',     [14],      repeat=10)
-	bench('tc2', test_c2, 'loops6_inc_inc', [14],      repeat=10)
+	bench('v1_vm_case_tcc', 'loops6',         [14],      repeat=10)
+	bench('v1_vm_case_gcc', 'loops6',         [14],      repeat=10)
+	bench('v1_vm_case_tcc', 'loops6_inc',     [14],      repeat=10)
+	bench('v1_vm_case_gcc', 'loops6_inc',     [14],      repeat=10)
+	bench('v1_vm_case_tcc', 'loops6_inc_inc', [14],      repeat=10)
+	bench('v1_vm_case_gcc', 'loops6_inc_inc', [14],      repeat=10)
+	bench('v1_vm_repl_case_tcc', 'loops6',         [14],      repeat=10)
+	bench('v1_vm_repl_case_gcc', 'loops6',         [14],      repeat=10)
+	bench('v1_vm_repl_case_tcc', 'loops6_inc',     [14],      repeat=10)
+	bench('v1_vm_repl_case_gcc', 'loops6_inc',     [14],      repeat=10)
+	bench('v1_vm_repl_case_tcc', 'loops6_inc_inc', [14],      repeat=10)
+	bench('v1_vm_repl_case_gcc', 'loops6_inc_inc', [14],      repeat=10)
+
+	#bench('tc',  test_c,  'loops6_inc',     [14],      repeat=10)
+	#bench('tc',  test_c,  'loops6_inc_inc', [14],      repeat=10)
+	#bench('tc2', test_c2, 'loops6',         [14],      repeat=10)
+	#bench('tc2', test_c2, 'loops6_inc',     [14],      repeat=10)
+	#bench('tc2', test_c2, 'loops6_inc_inc', [14],      repeat=10)
 	# bench('tc',  test_c,  'loops6',         [6],      repeat=10)
 	# bench('tc',  test_c,  'loops6_inc',     [6],      repeat=10)
 	# bench('tc',  test_c,  'loops6_inc_inc', [6],      repeat=10)
-	# bench('py',  test_py, 'loops6',         [6],      repeat=10)
-	# bench('py',  test_py, 'loops6_inc',     [6],      repeat=10)
-	# bench('py',  test_py, 'loops6_inc_inc', [6],      repeat=10)
+	bench('v1_vm_python',   'loops6',         [6],      repeat=10)
+	bench('v1_vm_python',   'loops6_inc',     [6],      repeat=10)
+	bench('v1_vm_python',   'loops6_inc_inc', [6],      repeat=10)
+	f.close()
