@@ -40,24 +40,27 @@ def postproc(output):
 
 def bench(vm, rom_name, args=[], mem_size=1024, repeat=30):
 	dt_list = []
+	ic_list = []
 	test_fun = test_py if '_vm_py' in vm else test_c 
 	for _ in tqdm(range(repeat), desc=f"{vm} {rom_name} {args}", leave=True):
-		dt = test_fun(rom_name, args, mem_size=mem_size, vm=vm)['dt']
-		dt_list += [dt]
-	mean = stat.mean(dt_list)
-	stdev = stat.stdev(dt_list)
-	_min = min(dt_list)
-	print('',vm, rom_name, args, f"{_min:0.1f}", f"{mean:0.1f}", f"{stdev:0.1f}", repeat, dt_list, '', sep=' | ', flush=True)
+		status = test_fun(rom_name, args, mem_size=mem_size, vm=vm)
+		dt_list += [status['dt']]
+		ic_list += [status['ic']]
+	mean_dt = stat.mean(dt_list)
+	stdev_dt = stat.stdev(dt_list)
+	min_dt = min(dt_list)
+	mips = (stat.mean(ic_list) / 1000 / mean_dt) if mean_dt else float('nan')
+	print('',vm, rom_name, args, f"{min_dt:0.1f}", f"{mean_dt:0.1f}", f"{stdev_dt:0.1f}", f"{mips:0.1f}", repeat, dt_list, '', sep=' | ', flush=True)
 
 # =================================================================================================================================
 
 if __name__=="__main__":
 	f=open(f'../../bench/report_{int(now())}.md','w')
 	sys.stdout=f
-	print('','vm','rom','args','best_ms','mean_ms','stdev','runs','dt_list','',sep=' | ')
-	print('','--','---','----','-------','-------','-----','----','-------','',sep=' | ')
+	print('','vm','rom','args','best_ms','mean_ms','stdev','mips','runs','dt_list','',sep=' | ')
+	print('','--','---','----','-------','-------','-----','----','----','-------','',sep=' | ')
 	
-	R = 10
+	R = 3
 	
 	# ACKERMANN
 	if 1:
