@@ -3,7 +3,7 @@
 LIT 1 EXT ARG
 CAL fib
 ;EXT DOT
-OPR HALT
+OPR HLT
 
 fib: ; (N -- x)
 	INT 1 STO 0 ; capture n from stack

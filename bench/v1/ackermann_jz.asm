@@ -3,7 +3,7 @@ LIT 1 EXT ARG ; m
 LIT 2 EXT ARG ; n
 CAL ack
 ;EXT DOT
-OPR HALT
+OPR HLT
 
 ; (m n -- x)
 ack:

@@ -41,4 +41,4 @@ loop1:
 end-loop1:
 
 LOD 9 EXT DOT ; print(cnt)
-OPR HALT
+OPR HLT

@@ -7,7 +7,7 @@ main:
 	LIT 42 ; SEED
 		loop: LOD 0 JZ @end-loop
 		CAL gen-random
-		LOD 0 LIT 1 OPR SUB STO 0 JMP @loop end-loop:
+		INC 0 -1 JMP @loop end-loop:
 	;EXT DOT
 	OPR HLT
 

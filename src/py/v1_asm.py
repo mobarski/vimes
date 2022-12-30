@@ -1,6 +1,7 @@
 import v1_vm as vm
 from array import array
 import re
+import os
 
 # get opcodes
 opcode = {}
@@ -19,6 +20,21 @@ def gen_pcode_file(text, path):
 	pcode = asm(text)
 	a = array('i', pcode)
 	a.tofile(open(path,'wb'))
+
+def compile_all():
+	gen_c_header('../c/v1_opcodes.h')
+	names = []
+	for name in os.listdir('../../bench/v1/'):
+		if not name.endswith('.asm'): continue
+		names.append(name.replace('.asm',''))
+	#for name in ['fibo','loops6','random','ackermann_jz','ackermann_jnz']: # TODO
+	for name in names:
+		print(f'compiling {name} - ',end='')
+		try:
+			gen_pcode_file(open(f'../../bench/v1/{name}.asm').read(), f'../../bench/v1/pcode/{name}.rom')
+			print('OK')
+		except Exception as e:
+			print(f'ERROR: {e}')
 
 def asm(text):
 	"""compile text into p-code -> list[int]"""
@@ -65,7 +81,4 @@ def asm(text):
 	return out
 
 if __name__=="__main__":
-	gen_c_header('../c/v1_opcodes.h')
-	for name in ['fibo','loops6','random','ackermann_jz','ackermann_jnz']:
-		gen_pcode_file(open(f'../../bench/v1/{name}.asm').read(), f'../../bench/v1/pcode/{name}.rom')
-	
+	compile_all()

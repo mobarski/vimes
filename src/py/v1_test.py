@@ -20,6 +20,19 @@ def load(path):
 
 ##################################################################################
 
+test('inc',"""
+	INT 10
+	LIT 10 STO 1
+	LIT 20 STO 2
+	INC 1 2
+	INC 2 10
+	INC 1 -10
+	INC 2 10
+	LOD 1
+	LOD 2
+	OPR ADD
+	OPR HLT
+""")
 
 test('ackermann JNZ', load('../../bench/v1/ackermann_jnz.asm'), argv=[3,3], trace=False, mem_size=100_000, n=0)
 test('ackermann JZ',  load('../../bench/v1/ackermann_jz.asm'),  argv=[3,3], trace=False, mem_size=100_000, n=0)
@@ -34,7 +47,7 @@ CAL bbb
 CAL aaa
 CAL bbb
 CAL aaa
-OPR HALT
+OPR HLT
 
 aaa: LIT 111 EXT DOT OPR RET
 bbb: LIT 222 EXT DOT OPR RET
@@ -44,7 +57,7 @@ test('assert', """
 	LIT 10
 	LIT 20 OPR AST
 	LIT 42
-	OPR HALT
+	OPR HLT
 """)
 
 test('variables', """
@@ -58,7 +71,7 @@ LIT 66 STO 0
 LIT 77 STO 2
 LIT 88 STO 4
 LIT 99 STO 6
-OPR HALT
+OPR HLT
 """)
 
 test('lit mul add dot', """
@@ -70,7 +83,7 @@ xxx:
 	OPR ADD
 	
 	EXT DOT
-	OPR HALT
+	OPR HLT
 """)
 
 test('lt', """
@@ -84,7 +97,7 @@ test('lt', """
 	LIT 10
 	OPR LT
 	
-	OPR HALT
+	OPR HLT
 """)
 
 
@@ -93,7 +106,7 @@ LIT 42 ; SEED
 CAL gen-random EXT DOT
 CAL gen-random EXT DOT
 CAL gen-random EXT DOT
-OPR HALT
+OPR HLT
 
 ; (last -- new)
 gen-random:
@@ -112,3 +125,6 @@ test('loops3', load('../../bench/v1/loops3.asm'), argv=[6], n=0)
 test('loops4', load('../../bench/v1/loops4.asm'), argv=[6], n=0)
 test('loops5', load('../../bench/v1/loops5.asm'), argv=[6], n=0)
 test('loops6', load('../../bench/v1/loops6.asm'), argv=[6], n=0)
+
+test('loops6_inc', load('../../bench/v1/loops6_inc.asm'), argv=[6], n=0)
+test('loops6_inc_inc', load('../../bench/v1/loops6_inc_inc.asm'), argv=[6], n=0)

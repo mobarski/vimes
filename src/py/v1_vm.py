@@ -14,9 +14,10 @@ JZ=6
 JNZ=7
 INT=8 # Allocate x cells on R stack (name from p-machine -- RENAME ???)
 EXT=9
+INC=10
 
 # OPERATIONS
-HALT=0
+HLT=0
 RET=1
 ADD=2
 SUB=3
@@ -145,6 +146,10 @@ class VM:
 	def op_ext(self, arg):
 		self.ip += 2
 		self.fun_by_ext[arg]()
+	
+	def op_inc(self, arg):
+		self.mem[self.fp - arg] += self.code[self.ip + 2]
+		self.ip += 3
 
 	# OPERATIONS
 	
@@ -153,7 +158,7 @@ class VM:
 		self.rp = self.fp+2
 		self.fp = self.mem[self.fp+2]
 	
-	def opr_halt(self):
+	def opr_hlt(self):
 		self.running = False
 		self.ip -= 2
 	

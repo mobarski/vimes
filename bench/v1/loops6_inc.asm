@@ -34,27 +34,27 @@ loop1:
 						;
 						LOD 9 LIT 1 OPR ADD STO 9 ;;; cnt+=1
 						;
-						LOD 6 LIT 1 OPR SUB STO 6 ;;; f-=1
+						INC 6 -1 ;;; f-=1
 						JMP @loop6
 					end-loop6:
 					;
-					LOD 5 LIT 1 OPR SUB STO 5 ;;; e-=1
+					INC 5 -1 ;;; e-=1
 					JMP @loop5
 				end-loop5:
 				;
-				LOD 4 LIT 1 OPR SUB STO 4 ;;; d-=1
+				INC 4 -1 ;;; d-=1
 				JMP @loop4
 			end-loop4:
 			;
-			LOD 3 LIT 1 OPR SUB STO 3 ;;; c-=1
+			INC 3 -1 ;;; c-=1
 			JMP @loop3
 		end-loop3:
 		;
-		LOD 2 LIT 1 OPR SUB STO 2 ;;; b-=1
+		INC 2 -1 ;;; b-=1
 		JMP @loop2
 	end-loop2:
 	;
-	LOD 1 LIT 1 OPR SUB STO 1 ;;; a-=1
+	INC 1 -1 ;;; a-=1
 	JMP @loop1
 end-loop1:
 

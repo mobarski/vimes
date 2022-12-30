@@ -8,7 +8,8 @@
 #define JNZ 7
 #define INT 8
 #define EXT 9
-#define HALT 0
+#define INC 10
+#define HLT 0
 #define RET 1
 #define ADD 2
 #define SUB 3

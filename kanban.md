@@ -22,6 +22,9 @@
 
 ## Done
 
+- c: fixed INC
+
+- rename HALT -> HLT
 - c: ic uses 64 bits
 - c: EXT ARG via environ (P1, P2, ... P7)
 - asm: ';' as comment (better handling in text editors)

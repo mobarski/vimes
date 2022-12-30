@@ -32,6 +32,7 @@ int run(int* code, int n, int mem_size) {
 			case JMP: ip+=a;                        break;
 			case JZ:  ip+=(mem[--sp]==0) ? a:2;     break;
 			case JNZ: ip+=(mem[--sp]!=0) ? a:2;     break;
+			case INC: mem[fp-a]+=code[ip+2]; ip+=3; break;
 			case CAL: mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp; break;
 			case OPR:
 				ip+=2;
@@ -50,7 +51,7 @@ int run(int* code, int n, int mem_size) {
 					case LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; break;
 					case GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; break;
 					// other
-					case HALT: ic++; goto STOP;
+					case HLT: ic++; goto STOP;
 					case RET:  ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2]; break;
 				}
 				break;
