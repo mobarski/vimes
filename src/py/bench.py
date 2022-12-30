@@ -60,7 +60,7 @@ if __name__=="__main__":
 	print('','vm','rom','args','best_ms','mean_ms','stdev','mips','runs','dt_list','',sep=' | ')
 	print('','--','---','----','-------','-------','-----','----','----','-------','',sep=' | ')
 	
-	R = 3
+	R = 10
 	
 	# ACKERMANN
 	if 1:

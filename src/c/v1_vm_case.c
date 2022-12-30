@@ -21,7 +21,7 @@ int run(int* code, int n, int mem_size) {
 	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	
 	for (;;ic++) {
-		if ((n>0) && (ic >= n)) break;
+		//if ((n>0) && (ic >= n)) break;
 
 		int op = code[ip];
 		int a = code[ip+1];
