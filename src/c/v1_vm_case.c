@@ -1,6 +1,8 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "time.h"
+#include "errno.h"
+
 #include "v1_opcodes.h"
 
 // === CORE =======================================================================================================================
