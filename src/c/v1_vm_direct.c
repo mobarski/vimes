@@ -103,36 +103,37 @@ int run(int* code, int n, int mem_size, int code_size) {
 				}
 		}
 
-		_LIT: mem[sp++]=a;           ip+=2;                   goto _NEXT;
-		_LOD: mem[sp++]=mem[fp-a];   ip+=2;                   goto _NEXT;
-		_STO: mem[fp-a]=mem[--sp];   ip+=2;                   goto _NEXT;
-		_INT: rp-=a;                 ip+=2;                   goto _NEXT;
-		_JMP: ip+=a;                                          goto _NEXT;
-		_JZ:  ip+=(mem[--sp]==0) ? a:2;                       goto _NEXT;
-		_JNZ: ip+=(mem[--sp]!=0) ? a:2;                       goto _NEXT;
-		_INC: mem[fp-a]+=code[ip+2]; ip+=3;                   goto _NEXT;
-		_CAL: mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp; goto _NEXT;
+		_LIT: mem[sp++]=a;           ip+=2;                        goto _NEXT;
+		_LOD: mem[sp++]=mem[fp-a];   ip+=2;                        goto _NEXT;
+		_STO: mem[fp-a]=mem[--sp];   ip+=2;                        goto _NEXT;
+		_INT: rp-=a;                 ip+=2;                        goto _NEXT;
+		_JMP: ip+=a;                                               goto _NEXT;
+		_JZ:  ip+=(mem[--sp]==0) ? a:2;                            goto _NEXT;
+		_JNZ: ip+=(mem[--sp]!=0) ? a:2;                            goto _NEXT;
+		_INC: mem[fp-a]+=code[ip+2]; ip+=3;                        goto _NEXT;
+		_CAL: mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp;      goto _NEXT;
 		// OPR
-		_ADD: sp--; mem[sp-1] += mem[sp];                     goto _NEXT;
-		_SUB: sp--; mem[sp-1] -= mem[sp];                     goto _NEXT;
-		_MUL: sp--; mem[sp-1] *= mem[sp];                     goto _NEXT;
-		_DIV: sp--; mem[sp-1] /= mem[sp];                     goto _NEXT;
-		_MOD: sp--; mem[sp-1] %= mem[sp];                     goto _NEXT;
-		_LT:  sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0;   goto _NEXT;
-		_GT:  sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0;   goto _NEXT;
-		_EQ:  sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0;   goto _NEXT;
-		_NE:  sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0;   goto _NEXT;
-		_LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0;   goto _NEXT;
-		_GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0;   goto _NEXT;
+		_ADD: sp--; mem[sp-1] += mem[sp]; ip+=2;                   goto _NEXT;
+		_SUB: sp--; mem[sp-1] -= mem[sp]; ip+=2;                   goto _NEXT;
+		_MUL: sp--; mem[sp-1] *= mem[sp]; ip+=2;                   goto _NEXT;
+		_DIV: sp--; mem[sp-1] /= mem[sp]; ip+=2;                   goto _NEXT;
+		_MOD: sp--; mem[sp-1] %= mem[sp]; ip+=2;                   goto _NEXT;
+		_LT:  sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0; ip+=2; goto _NEXT;
+		_GT:  sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0; ip+=2; goto _NEXT;
+		_EQ:  sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0; ip+=2; goto _NEXT;
+		_NE:  sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0; ip+=2; goto _NEXT;
+		_LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; ip+=2; goto _NEXT;
+		_GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; ip+=2; goto _NEXT;
 		_HLT: ic++; goto _STOP;
-		_RET: ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];            goto _NEXT;
+		_RET: ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];                 goto _NEXT;
 		// EXT
 		_ARG:
 			t = mem[sp-1];
 			mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;
 			//printf("DEBUG: ARG %d %s = %d\n", t, args[t], mem[sp-1]); // XXX
+			ip+=2;
 			                                                  goto _NEXT;
-		_DOT: printf("%d\n",mem[sp-1]);                       goto _NEXT;
+		_DOT: printf("%d\n",mem[sp-1]); ip+=2;                goto _NEXT;
 		_AST: printf("AST not implemented\n"); goto _STOP; // TODO
 		_NEXT:
 		ic++;
