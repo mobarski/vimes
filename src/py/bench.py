@@ -1,49 +1,17 @@
-import statistics as stat
-import re
-import os
 import sys
+import statistics as stat
 from time import time as now
 
 from tqdm import tqdm
 
-def test_c(rom_name, args=[], mem_size=1024, rom_dir='../../bench/v1/pcode', vm=None):
-	add_args_to_env(args)
-	os.chdir('../c/')
-	cmd = f'{vm} {rom_dir}/{rom_name}.rom {mem_size}'
-	#print('CMD:', cmd, file=sys.stderr) # XXX
-	output = os.popen(cmd).read()
-	return postproc(output)
-
-def test_py(asm_name, args=[], mem_size=1024, asm_dir='../../bench/v1', vm=None):
-	from v1_vm import VM
-	from v1_asm import asm
-	asm_path = f"{asm_dir}/{asm_name}.asm"
-	code = asm(open(asm_path).read())
-	vm = VM(code, argv=args, mem_size=mem_size)
-	return vm.run()
-
-def add_args_to_env(args):
-	for i,a in enumerate(args):
-		os.environ[f'P{i+1}']=str(a)
-
-def postproc(output):
-	# postprocessing
-	match = re.findall('STATUS: ip (\d+) sp (\d+) rp (\d+) fp (\d+) ic (\d+) dt (\d+) ms tos (\d+)', output)
-	try:
-		status = {k:int(x) for k,x in zip(['ip','sp','rp','fp','ic','dt','tos'],match[0])}
-		return status
-	except:
-		print(f'\nERROR: cannot parse output - "{output}"', file=sys.stderr)
-		exit(1)
-	#print(output) # xxx
-	#print(status) # xxx
+import utils
 
 def bench(vm, rom_name, args=[], mem_size=1024, repeat=30):
 	dt_list = []
 	ic_list = []
-	test_fun = test_py if '_vm_py' in vm else test_c 
+	run_fun = utils.run_asm_py if '_vm_py' in vm else utils.run_rom_cmd 
 	for _ in tqdm(range(repeat), desc=f"{vm} {rom_name} {args}", leave=True):
-		status = test_fun(rom_name, args, mem_size=mem_size, vm=vm)
+		status = run_fun(rom_name, args, mem_size=mem_size, vm=vm)
 		dt_list += [status['dt']]
 		ic_list += [status['ic']]
 	mean_dt = stat.mean(dt_list)
@@ -61,6 +29,10 @@ if __name__=="__main__":
 	print('','--','---','----','-------','-------','-----','----','----','-------','',sep=' | ')
 	
 	R = 10
+	
+	if 1:
+		bench('v1_vm_direct', 'loops6', [3],  repeat=R)
+		exit()
 	
 	# ACKERMANN
 	if 1:

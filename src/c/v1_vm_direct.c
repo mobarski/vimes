@@ -8,6 +8,9 @@
 // === CORE =======================================================================================================================
 
 int run(int* code, int n, int mem_size, int code_size) {
+	setbuf(stdout, NULL);
+	//printf("run n %d mem_size %d code_size %d\n",n,mem_size,code_size);
+	
 	int ip = 0;  // instruction pointer
 	int sp = 0;  // stack pointer
 	int rp = mem_size-1; // return stack pointer (ret-stack grows down)
@@ -20,6 +23,8 @@ int run(int* code, int n, int mem_size, int code_size) {
 	int t; // temporary value (ie for top-of-stack)
 	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	
+	
+	//printf("rewriting code as pointers, code_size %d\n", code_size);
 	// rewrite code as instruction pointers (prog)
 	void **prog = calloc(code_size, sizeof(void*));
 	for (int i=0; i<code_size;) {
@@ -63,44 +68,47 @@ int run(int* code, int n, int mem_size, int code_size) {
 	}
 	
 	#define NEXT ic++; goto *prog[ip]
+	#define INFOxxx if ((n>0) && (ic >= n)) goto _STOP; printf("ip %d op %d a %d tos %d\n",ip,code[ip],code[ip+1],mem[sp-1])
+	#define INFO 
 	#define a code[ip+1]
 	{
-		NEXT;
+		INFO; NEXT;
 
-		_LIT: mem[sp++]=a;           ip+=2;                        NEXT;
-		_LOD: mem[sp++]=mem[fp-a];   ip+=2;                        NEXT;
-		_STO: mem[fp-a]=mem[--sp];   ip+=2;                        NEXT;
-		_INT: rp-=a;                 ip+=2;                        NEXT;
-		_JMP: ip+=a;                                               NEXT;
-		_JZ:  ip+=(mem[--sp]==0) ? a:2;                            NEXT;
-		_JNZ: ip+=(mem[--sp]!=0) ? a:2;                            NEXT;
-		_INC: mem[fp-a]+=code[ip+2]; ip+=3;                        NEXT;
-		_CAL: mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp;      NEXT;
+		_LIT: INFO; mem[sp++]=a;           ip+=2;                        NEXT;
+		_LOD: INFO; mem[sp++]=mem[fp-a];   ip+=2;                        NEXT;
+		_STO: INFO; mem[fp-a]=mem[--sp];   ip+=2;                        NEXT;
+		_INT: INFO; rp-=a;                 ip+=2;                        NEXT;
+		_JMP: INFO; ip+=a;                                               NEXT;
+		_JZ:  INFO; ip+=(mem[--sp]==0) ? a:2;                            NEXT;
+		_JNZ: INFO; ip+=(mem[--sp]!=0) ? a:2;                            NEXT;
+		_INC: INFO; mem[fp-a]+=code[ip+2]; ip+=3;                        NEXT;
+		_CAL: INFO; mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp;      NEXT;
 		
 		// OPR
-		_ADD: sp--; mem[sp-1] += mem[sp]; ip+=2;                   NEXT;
-		_SUB: sp--; mem[sp-1] -= mem[sp]; ip+=2;                   NEXT;
-		_MUL: sp--; mem[sp-1] *= mem[sp]; ip+=2;                   NEXT;
-		_DIV: sp--; mem[sp-1] /= mem[sp]; ip+=2;                   NEXT;
-		_MOD: sp--; mem[sp-1] %= mem[sp]; ip+=2;                   NEXT;
-		_LT:  sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0; ip+=2; NEXT;
-		_GT:  sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0; ip+=2; NEXT;
-		_EQ:  sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0; ip+=2; NEXT;
-		_NE:  sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0; ip+=2; NEXT;
-		_LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; ip+=2; NEXT;
-		_GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; ip+=2; NEXT;
-		_HLT: ic++; goto _STOP;
-		_RET: ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];                 NEXT;
+		_ADD: INFO; sp--; mem[sp-1] += mem[sp]; ip+=2;                   NEXT;
+		_SUB: INFO; sp--; mem[sp-1] -= mem[sp]; ip+=2;                   NEXT;
+		_MUL: INFO; sp--; mem[sp-1] *= mem[sp]; ip+=2;                   NEXT;
+		_DIV: INFO; sp--; mem[sp-1] /= mem[sp]; ip+=2;                   NEXT;
+		_MOD: INFO; sp--; mem[sp-1] %= mem[sp]; ip+=2;                   NEXT;
+		_LT:  INFO; sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0; ip+=2; NEXT;
+		_GT:  INFO; sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0; ip+=2; NEXT;
+		_EQ:  INFO; sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0; ip+=2; NEXT;
+		_NE:  INFO; sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0; ip+=2; NEXT;
+		_LE:  INFO; sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; ip+=2; NEXT;
+		_GE:  INFO; sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; ip+=2; NEXT;
+		_HLT: INFO; ic++; goto _STOP;
+		_RET: INFO; ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];                 NEXT;
 		
 		// EXT
 		_ARG:
+			INFO;
 			t = mem[sp-1];
 			mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;
 			//printf("DEBUG: ARG %d %s = %d\n", t, args[t], mem[sp-1]); // XXX
 			ip+=2;
 			                                                  NEXT;
-		_DOT: printf("%d\n",mem[sp-1]); ip+=2;                NEXT;
-		_AST: printf("AST not implemented\n"); goto _STOP; // TODO
+		_DOT: INFO; printf("%d\n",mem[sp-1]); ip+=2;                NEXT;
+		_AST: INFO; printf("AST not implemented\n"); goto _STOP; // TODO
 		
 	}
 	_STOP:
