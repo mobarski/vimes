@@ -5,20 +5,24 @@
 
 #include "v1_opcodes.h"
 
+char* op_name[] = {"LIT","OPR","LOD","STO","CAL","JMP","JZ","JNZ","INT","EXT","INC"};
+
 // === CORE =======================================================================================================================
 
-int run(int* code, int n, int mem_size, int code_size) {
+long long run(int* code, int n, int mem_size, int code_size) {
 	setbuf(stdout, NULL);
 	//printf("run n %d mem_size %d code_size %d\n",n,mem_size,code_size);
 	
 	int ip = 0;  // instruction pointer
-	int sp = 0;  // stack pointer
+	int sp = 1;  // stack pointer (starts at 1 to prevent getting tos outside of allocated mem)
 	int rp = mem_size-1; // return stack pointer (ret-stack grows down)
 	int fp = rp; // frame pointer
 	long long ic = 0;  // instruction counter (64-bit)
 	int *mem = calloc(mem_size, sizeof(int));
+	//
 	clock_t start = clock();
 	clock_t end;
+	double dt_ms;
 	
 	int t; // temporary value (ie for top-of-stack)
 	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
@@ -68,7 +72,7 @@ int run(int* code, int n, int mem_size, int code_size) {
 	}
 	
 	#define NEXT ic++; goto *prog[ip]
-	#define INFOxxx if ((n>0) && (ic >= n)) goto _STOP; printf("ip %d op %d a %d tos %d\n",ip,code[ip],code[ip+1],mem[sp-1])
+	#define INFOxxx if ((n>0) && (ic >= n)) goto _STOP; printf("ip %d\t\top %d\t\t%s\t\ta %d\t\tsp %d\t\ttos %d\t\trp %d\t\tfp %d\t\tic %d\n",ip,code[ip],op_name[code[ip]],code[ip+1],sp,mem[sp-1],rp,fp,ic)
 	#define INFO 
 	#define a code[ip+1]
 	{
@@ -113,10 +117,10 @@ int run(int* code, int n, int mem_size, int code_size) {
 	}
 	_STOP:
 	end = clock();
-	double dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
-	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms,mem[sp-1]);
-	free(mem);
-	free(prog);
+	dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
+	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %d ms tos %d\n",ip,sp,rp,fp,ic,(int)dt_ms,mem[sp-1]);
+	//free(mem);
+	//free(prog);
 	return ic;
 }
 
