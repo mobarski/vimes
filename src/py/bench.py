@@ -23,7 +23,7 @@ def bench(vm, rom_name, args=[], mem_size=1024, repeat=30):
 # =================================================================================================================================
 
 if __name__=="__main__":
-	f=open(f'../../bench/report_{int(now())}.md','w')
+	f=open(f'../../bench/raw/report_{int(now())}.md','w')
 	sys.stdout=f
 	print('','vm','rom','args','best_ms','mean_ms','stdev','mips','runs','dt_list','',sep=' | ')
 	print('','--','---','----','-------','-------','-----','----','----','-------','',sep=' | ')
