@@ -2,9 +2,9 @@ import re
 import os
 import sys
 
-def run_rom_cmd(rom_name, args=[], mem_size=1024, rom_dir='../../bench/v1/pcode', vm=None, debug=False):
+def run_rom_cmd(rom_name, args=[], mem_size=1024, rom_dir='../bench/v1/pcode', vm=None, debug=False):
 	add_args_to_env(args)
-	os.chdir('../c/')
+	os.chdir('../../bin') # BUG - multiple calls
 	cmd = f'{vm} {rom_dir}/{rom_name}.rom {mem_size}'
 	if debug:
 		print('\nCMD:\n', cmd, file=sys.stderr, sep='') # XXX
