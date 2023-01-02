@@ -83,11 +83,18 @@ int run(int* code, int n, int mem_size) {
 		_NE:  sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0; goto _NEXT;
 		_LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; goto _NEXT;
 		_GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; goto _NEXT;
-		_HLT: ic++; goto _STOP;
+		_HLT: ic++; ip-=2; goto _STOP;
 		_RET: ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2]; goto _NEXT;
 		// EXT
 		_DOT: printf("%d\n",mem[sp-1]);        goto _NEXT;
-		_AST: printf("AST not implemented\n"); goto _STOP; // TODO
+		_AST:
+			sp--;
+			if (mem[sp-1]==mem[sp]) {
+				sp--; goto _NEXT;
+			} else {
+				printf("ERROR: expected %d got %d instead\n",mem[sp],mem[sp-1]);
+				goto _STOP;
+			}
 		_ARG:
 			t = mem[sp-1];
 			mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;
@@ -99,7 +106,7 @@ int run(int* code, int n, int mem_size) {
 	_STOP:
 	end = clock();
 	double dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
-	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms,mem[sp-1]);
+	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms, sp>0?mem[sp-1]:0);
 	free(mem);
 	return ic;
 }

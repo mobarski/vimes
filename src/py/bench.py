@@ -31,72 +31,94 @@ if __name__=="__main__":
 	R = 10
 	
 	# ACKERMANN
-	if 0:
-		bench('v1_vm_python',        'ackermann_jnz', [3,5], repeat=R, mem_size=100_000)
-		bench('v1_vm_python',        'ackermann_jz',  [3,5], repeat=R, mem_size=100_000)
+	if 1:
+		#bench('v1_vm_python',       'ackermann_jnz', [3,5], repeat=R, mem_size=100_000)
+		#bench('v1_vm_python',       'ackermann_jz',  [3,5], repeat=R, mem_size=100_000)
 		#
-		bench('v1_vm_case_tcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_case_gcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_repl_case_tcc', 'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_repl_case_gcc', 'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_direct_tcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_direct_gcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_switch_tcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_switch_gcc',      'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_repl_switch_tcc', 'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
+		bench('v1_repl_switch_gcc', 'ackermann_jnz', [3,8], repeat=R, mem_size=100_000)
 		#
-		bench('v1_vm_case_tcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_case_gcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_repl_case_tcc', 'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
-		bench('v1_vm_repl_case_gcc', 'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_direct_tcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_direct_gcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_switch_tcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_switch_gcc',      'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_repl_switch_tcc', 'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
+		bench('v1_repl_switch_gcc', 'ackermann_jz',  [3,8], repeat=R, mem_size=100_000)
 	
 	# FIBO
-	if 0:
-		bench('v1_vm_case_tcc',      'fibo', [30], repeat=R)
-		bench('v1_vm_case_gcc',      'fibo', [30], repeat=R)
-		bench('v1_vm_repl_case_tcc', 'fibo', [30], repeat=R)
-		bench('v1_vm_repl_case_gcc', 'fibo', [30], repeat=R)
+	if 1:
+		bench('v1_direct_tcc',      'fibo', [30], repeat=R)
+		bench('v1_direct_gcc',      'fibo', [30], repeat=R)
+		bench('v1_switch_tcc',      'fibo', [30], repeat=R)
+		bench('v1_switch_gcc',      'fibo', [30], repeat=R)
+		bench('v1_repl_switch_tcc', 'fibo', [30], repeat=R)
+		bench('v1_repl_switch_gcc', 'fibo', [30], repeat=R)
 		#
-		bench('v1_vm_python',        'fibo', [24], repeat=R)
-		bench('v1_vm_case_tcc',      'fibo', [24], repeat=R)
-		bench('v1_vm_case_gcc',      'fibo', [24], repeat=R)
-		bench('v1_vm_repl_case_tcc', 'fibo', [24], repeat=R)
-		bench('v1_vm_repl_case_gcc', 'fibo', [24], repeat=R)
+	if 1:
+		#bench('v1_vm_python',       'fibo', [24], repeat=R)
+		bench('v1_direct_tcc',      'fibo', [24], repeat=R)
+		bench('v1_direct_gcc',      'fibo', [24], repeat=R)
+		bench('v1_switch_tcc',      'fibo', [24], repeat=R)
+		bench('v1_switch_gcc',      'fibo', [24], repeat=R)
+		bench('v1_repl_switch_tcc', 'fibo', [24], repeat=R)
+		bench('v1_repl_switch_gcc', 'fibo', [24], repeat=R)
 	
 	# RANDOM
-	if 0:
-		bench('v1_vm_python',        'random',     [50_000],    repeat=R)
-		bench('v1_vm_case_tcc',      'random',     [5_000_000], repeat=R)
-		bench('v1_vm_case_gcc',      'random',     [5_000_000], repeat=R)
-		bench('v1_vm_repl_case_tcc', 'random',     [5_000_000], repeat=R)
-		bench('v1_vm_repl_case_gcc', 'random',     [5_000_000], repeat=R)
-		#
-		bench('v1_vm_python',        'random_inc', [50_000],    repeat=R)
-		bench('v1_vm_case_tcc',      'random_inc', [5_000_000], repeat=R)
-		bench('v1_vm_case_gcc',      'random_inc', [5_000_000], repeat=R)
-		bench('v1_vm_repl_case_tcc', 'random_inc', [5_000_000], repeat=R)
-		bench('v1_vm_repl_case_gcc', 'random_inc', [5_000_000], repeat=R)
+	if 1:
+		#bench('v1_vm_python',        'random',     [50_000],    repeat=R)
+		bench('v1_indirect_tcc',    'random',     [5_000_000], repeat=R)
+		bench('v1_indirect_gcc',    'random',     [5_000_000], repeat=R)
+		bench('v1_direct_tcc',      'random',     [5_000_000], repeat=R)
+		bench('v1_direct_gcc',      'random',     [5_000_000], repeat=R)
+		bench('v1_switch_tcc',      'random',     [5_000_000], repeat=R)
+		bench('v1_switch_gcc',      'random',     [5_000_000], repeat=R)
+		bench('v1_repl_switch_tcc', 'random',     [5_000_000], repeat=R)
+		bench('v1_repl_switch_gcc', 'random',     [5_000_000], repeat=R)
+	if 1:
+		#bench('v1_vm_python',        'random_inc', [50_000],    repeat=R)
+		bench('v1_indirect_tcc',    'random_inc', [5_000_000], repeat=R)
+		bench('v1_indirect_gcc',    'random_inc', [5_000_000], repeat=R)
+		bench('v1_direct_tcc',      'random_inc', [5_000_000], repeat=R)
+		bench('v1_direct_gcc',      'random_inc', [5_000_000], repeat=R)
+		bench('v1_switch_tcc',      'random_inc', [5_000_000], repeat=R)
+		bench('v1_switch_gcc',      'random_inc', [5_000_000], repeat=R)
+		bench('v1_repl_switch_tcc', 'random_inc', [5_000_000], repeat=R)
+		bench('v1_repl_switch_gcc', 'random_inc', [5_000_000], repeat=R)
 	
 	# LOOPS
 	if 1:
-		#
-		bench('v1_vm_direct_gcc',    'loops6_inc_inc', [14],  repeat=R)
-		bench('v1_vm_direct_tcc',    'loops6_inc_inc', [14],  repeat=R)
-		bench('v1_vm_case_tcc',      'loops6_inc_inc', [14],  repeat=R)
-		bench('v1_vm_case_gcc',      'loops6_inc_inc', [14],  repeat=R)
-		bench('v1_vm_repl_case_tcc', 'loops6_inc_inc', [14],  repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6_inc_inc', [14],  repeat=R)
-		#
-		bench('v1_vm_case_tcc',      'loops6_inc',     [14],  repeat=R)
-		bench('v1_vm_case_gcc',      'loops6_inc',     [14],  repeat=R)
-		bench('v1_vm_repl_case_tcc', 'loops6_inc',     [14],  repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6_inc',     [14],  repeat=R)
-		#
-		bench('v1_vm_case_tcc',      'loops6',         [14],  repeat=R)
-		bench('v1_vm_case_gcc',      'loops6',         [14],  repeat=R)
-		bench('v1_vm_repl_case_tcc', 'loops6',         [14],  repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6',         [14],  repeat=R)
-		#
+		bench('v1_direct_gcc',        'loops6_inc_inc', [14],  repeat=R)
+		bench('v1_direct_tcc',        'loops6_inc_inc', [14],  repeat=R)
+		# bench('v1_vm_direct_noic_gcc', 'loops6_inc_inc', [14],  repeat=R)
+		# bench('v1_vm_direct_noic_tcc', 'loops6_inc_inc', [14],  repeat=R)
+		bench('v1_switch_tcc',        'loops6_inc_inc', [14],  repeat=R)
+		bench('v1_switch_gcc',        'loops6_inc_inc', [14],  repeat=R)
+		bench('v1_repl_switch_tcc',   'loops6_inc_inc', [14],  repeat=R)
+		bench('v1_repl_switch_gcc',   'loops6_inc_inc', [14],  repeat=R)
+	if 1:
+		bench('v1_direct_tcc',        'loops6_inc',     [14],  repeat=R)
+		bench('v1_direct_gcc',        'loops6_inc',     [14],  repeat=R)
+		bench('v1_switch_tcc',        'loops6_inc',     [14],  repeat=R)
+		bench('v1_switch_gcc',        'loops6_inc',     [14],  repeat=R)
+		bench('v1_repl_switch_tcc',   'loops6_inc',     [14],  repeat=R)
+		bench('v1_repl_switch_gcc',   'loops6_inc',     [14],  repeat=R)
+	if 1:
+		bench('v1_direct_gcc',        'loops6',         [14],  repeat=R)
+		bench('v1_direct_tcc',        'loops6',         [14],  repeat=R)
+		bench('v1_switch_tcc',        'loops6',         [14],  repeat=R)
+		bench('v1_switch_gcc',        'loops6',         [14],  repeat=R)
+		bench('v1_repl_switch_tcc',   'loops6',         [14],  repeat=R)
+		bench('v1_repl_switch_gcc',   'loops6',         [14],  repeat=R)
+	if 1:
 		#bench('v1_vm_python',        'loops6',         [6],   repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6',         [6],   repeat=R)
+		bench('v1_repl_switch_gcc', 'loops6',         [6],   repeat=R)
 		#bench('v1_vm_python',        'loops6_inc',     [6],   repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6_inc',     [6],   repeat=R)
+		bench('v1_repl_switch_gcc', 'loops6_inc',     [6],   repeat=R)
 		#bench('v1_vm_python',        'loops6_inc_inc', [6],   repeat=R)
-		bench('v1_vm_repl_case_gcc', 'loops6_inc_inc', [6],   repeat=R)
+		bench('v1_repl_switch_gcc', 'loops6_inc_inc', [6],   repeat=R)
 		#
 	f.close()

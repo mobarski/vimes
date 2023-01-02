@@ -1,25 +1,42 @@
 # Vimes - Virtual Machines Experimentation Sandbox
 
-**Vimes** is a collection of virtual machines (VMs) and related resources for studying their performance, ease of implementation, and ease of use. This sandbox includes a variety of VMs with different architectures, implementations, and assemblers, as well as benchmarks and utilities to help measure and compare their characteristics.
+**Vimes** is a collection of virtual machines (VMs) and related resources for studying their performance, ease of implementation, and ease of use. This sandbox includes a variety of VMs with different architectures, dispatch techniques, implementations, and assemblers, as well as benchmarks and utilities to help measure and compare their characteristics.
 
-## Architectures
+**Warning**: this is pre-alpha code.
 
-### V1
+# Architectures
 
-Inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/P-code_machine) from Niklaus Wirth's book "Algorithms + Data Structures = Programs" (1976).
+## V1
+
+Stack machine inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/P-code_machine) from Niklaus Wirth's book "Algorithms + Data Structures = Programs" (1976).
 
 **Differences**:
 
 - access restricted only to the local variables (level==0)
-- two conditional jump instructions (JZ and JNZ)
+- two conditional jump instructions (JZ and JNZ - for easier code generation)
 - new operations:
-  - MOD - modulo operation (a b -- c)
+  - MOD - modulo operation (replaces even-odd check from Wirth's VM)
   - HLT - stop execution
+- new instruction (INC) - example of a superinstruction
 - new instruction (EXT) that extends VM with new functionality
-  - AST - assert equal (a b --)
-  - ARG - get value of command-line program argument (a -- b)
+  - AST - assert equal (for easier testing)
+  - ARG - get value of command-line program argument (for easier parametrization)
 
+# Dispatch techniques
 
+## 1. Switch-based
+
+## 2. Replicated switch
+
+## 3. Direct threading
+
+## 4. Indirect threading
+
+## 5. Call-based
+
+# Details
+
+## V1 architecture
 
 #### Instructions
 
@@ -37,8 +54,8 @@ Inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/P-code_machine
 
 ##### Operations
 
-- **HLT** - halt execution
-- **RET** - return from procedure call
+- **HLT** - halt execution (--)
+- **RET** - return from procedure call (--)
 - **ADD** - add two values on the stack (a b -- c)
 - **SUB** - subtract two values on the stack (a b -- c)
 - **MUL** - multiply two values on the stack (a b -- c)

@@ -4,26 +4,33 @@
 
 ## Active
 
-- first benchmarks
-- c: direct threading
+- 
 
 ## Next
 
-- c: option to disable ic limiter (+15% boost)
-- c: option to disable ic
+- c: BEFORE / AFTER macros
+- EXT DBG
 
 ## To do
 
-- c: VM core into separate file
+- c: option to compile with tracing
+- c: run-time option to enable-disable tracing
+- c: tracing and non-tracing versions in the same executable
+- c: option to disable ic limiter (+15% boost)
+- c: option to disable ic (no boost?)
 - c: VM configuration to struct 
 - c: error handling 
 - asm: inline comments (for forth-like stack notation)
 - rethink assert / check
-- all tests into files + assertions
 - c: mmap code (don'ht allocate mem)
 
 ## Done
 
+- c: VM core into separate file
+- first benchmarks
+- first tests
+- c: implementation - indirect threading
+- c: implementation - direct threading
 - bench: .md reporting
 - bench: simple tsv reporting
 - c: gcc compilation

@@ -20,18 +20,25 @@ def gen_pcode_file(text, path):
 	pcode = asm(text)
 	a = array('i', pcode)
 	a.tofile(open(path,'wb'))
+	#open(path+'.txt','w').write(str(pcode))
 
-def compile_all():
-	gen_c_header('../c/v1_opcodes.h')
+def gen_text_file(text, path):
+	"""generate jsonl file with code"""
+	pcode = asm(text)
+	with open(path,'w') as f:
+		f.write(str(pcode))
+
+def compile_all(path):
 	names = []
-	for name in os.listdir('../../bench/v1/'):
+	for name in os.listdir(path):
 		if not name.endswith('.asm'): continue
 		names.append(name.replace('.asm',''))
-	#for name in ['fibo','loops6','random','ackermann_jz','ackermann_jnz']: # TODO
+	# TODO: path_out
+	# TODO: make dir {path}/pcode
 	for name in names:
 		print(f'compiling {name} - ',end='')
 		try:
-			gen_pcode_file(open(f'../../bench/v1/{name}.asm').read(), f'../../bench/v1/pcode/{name}.rom')
+			gen_pcode_file(open(f'{path}/{name}.asm').read(), f'{path}/pcode/{name}.rom')
 			print('OK')
 		except Exception as e:
 			print(f'ERROR: {e}')
@@ -81,4 +88,6 @@ def asm(text):
 	return out
 
 if __name__=="__main__":
-	compile_all()
+	gen_c_header('../c/v1_opcodes.h')
+	compile_all('../../bench/v1')
+	compile_all('../../test/v1')
