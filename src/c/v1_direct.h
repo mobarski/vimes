@@ -1,5 +1,4 @@
 
-
 #define EOL   printf("\n")
 #define TAB   printf("\t\t")
 
@@ -15,7 +14,6 @@
 
 long long run(int* code, int n, int mem_size, int code_size) {
 	setbuf(stdout, NULL);
-	//printf("run n %d mem_size %d code_size %d\n",n,mem_size,code_size);
 	
 	int ip = 0;          // instruction pointer
 	int sp = 0;          // stack pointer
@@ -23,13 +21,12 @@ long long run(int* code, int n, int mem_size, int code_size) {
 	int fp = rp;         // frame pointer
 	long long ic = 0;    // instruction counter (64-bit)
 	int *mem = calloc(mem_size, sizeof(int));
-	//
+	
 	clock_t start = clock();
 	clock_t end;
 	double dt_ms;
 	
 	int t; // temporary value (ie for top-of-stack)
-	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	
 	//printf("rewriting code as pointers, code_size %d\n", code_size);
 	// rewrite code as instruction pointers (prog)

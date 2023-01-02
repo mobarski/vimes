@@ -8,7 +8,6 @@
 
 ## Next
 
-- c: BEFORE / AFTER macros
 - EXT DBG
 
 ## To do
@@ -26,6 +25,7 @@
 
 ## Done
 
+- c: BEFORE / AFTER macros
 - c: VM core into separate file
 - first benchmarks
 - first tests

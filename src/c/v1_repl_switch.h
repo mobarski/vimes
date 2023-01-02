@@ -1,4 +1,7 @@
 
+#define BEFORE
+#define AFTER
+
 #define DISPATCH \
 	/*if ((n>0) && (ic >= n)) goto _STOP;*/ \
 	ic++; \
@@ -40,69 +43,74 @@
 			} \
 	}
 
-
 long long run(int* code, int n, int mem_size, int code_size) {
-	int ip = 0;  // instruction pointer
-	int sp = 0;  // stack pointer
+	setbuf(stdout, NULL);
+	
+	int ip = 0;          // instruction pointer
+	int sp = 0;          // stack pointer
 	int rp = mem_size-1; // return stack pointer (ret-stack grows down)
-	int fp = rp; // frame pointer
-	long long ic = 0;  // instruction counter (64-bit)
+	int fp = rp;         // frame pointer
+	long long ic = 0;    // instruction counter (64-bit)
 	int *mem = calloc(mem_size, sizeof(int));
+	
 	clock_t start = clock();
 	clock_t end;
+	double dt_ms;
 	
 	int t; // temporary value (ie for top-of-stack)
-	char* args[] = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	
 	{
 		int op;
 		int a;
 		
 		DISPATCH;
-
-		_LIT: mem[sp++]=a;           ip+=2; DISPATCH;
-		_LOD: mem[sp++]=mem[fp-a];   ip+=2; DISPATCH;
-		_STO: mem[fp-a]=mem[--sp];   ip+=2; DISPATCH;
-		_INT: rp-=a;                 ip+=2; DISPATCH;
-		_JMP: ip+=a;                        DISPATCH;
-		_JZ:  ip+=(mem[--sp]==0) ? a:2;     DISPATCH;
-		_JNZ: ip+=(mem[--sp]!=0) ? a:2;     DISPATCH;
-		_INC: mem[fp-a]+=code[ip+2]; ip+=3; DISPATCH;
-		_CAL: mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp; DISPATCH;
-		// OPR
-		_ADD: sp--; mem[sp-1] += mem[sp];                   DISPATCH;
-		_SUB: sp--; mem[sp-1] -= mem[sp];                   DISPATCH;
-		_MUL: sp--; mem[sp-1] *= mem[sp];                   DISPATCH;
-		_DIV: sp--; mem[sp-1] /= mem[sp];                   DISPATCH;
-		_MOD: sp--; mem[sp-1] %= mem[sp];                   DISPATCH;
-		_LT:  sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0; DISPATCH;
-		_GT:  sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0; DISPATCH;
-		_EQ:  sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0; DISPATCH;
-		_NE:  sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0; DISPATCH;
-		_LE:  sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0; DISPATCH;
-		_GE:  sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0; DISPATCH;
-		_HLT: ip-=2; goto _STOP;
-		_RET: ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2]; DISPATCH;
-		// EXT
-		_DOT: printf("%d\n",mem[sp-1]); DISPATCH;
-		_AST:
-			sp--;
-			if (mem[sp-1]==mem[sp]) {
-				sp--; DISPATCH;
-			} else {
-				printf("ERROR: expected %d got %d instead\n",mem[sp],mem[sp-1]);
-				goto _STOP;
-			}
-		_ARG:
-			t = mem[sp-1];
-			mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;
-			//printf("DEBUG: ARG %d %s = %d\n", t, args[t], mem[sp-1]); // XXX
-			DISPATCH;
+		
+		_LIT: BEFORE; mem[sp++]=a;                                     ip+=2; AFTER; DISPATCH;
+		_LOD: BEFORE; mem[sp++]=mem[fp-a];                             ip+=2; AFTER; DISPATCH;
+		_STO: BEFORE; mem[fp-a]=mem[--sp];                             ip+=2; AFTER; DISPATCH;
+		_INT: BEFORE; rp-=a;                                           ip+=2; AFTER; DISPATCH;
+		_INC: BEFORE; mem[fp-a]+=code[ip+2];                           ip+=3; AFTER; DISPATCH;
+		_JMP: BEFORE; ip+=a;                                                  AFTER; DISPATCH;
+		_JZ:  BEFORE; ip+=(mem[--sp]==0) ? a:2;                               AFTER; DISPATCH;
+		_JNZ: BEFORE; ip+=(mem[--sp]!=0) ? a:2;                               AFTER; DISPATCH;
+		_CAL: BEFORE; mem[rp]=fp; mem[rp-1]=ip+2; ip=a; rp-=2; fp=rp;         AFTER; DISPATCH;
+		// OPR                                                                                
+		_ADD: BEFORE; sp--; mem[sp-1] += mem[sp];                             AFTER; DISPATCH;
+		_SUB: BEFORE; sp--; mem[sp-1] -= mem[sp];                             AFTER; DISPATCH;
+		_MUL: BEFORE; sp--; mem[sp-1] *= mem[sp];                             AFTER; DISPATCH;
+		_DIV: BEFORE; sp--; mem[sp-1] /= mem[sp];                             AFTER; DISPATCH;
+		_MOD: BEFORE; sp--; mem[sp-1] %= mem[sp];                             AFTER; DISPATCH;
+		_LT:  BEFORE; sp--; mem[sp-1] = mem[sp-1]  < mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_GT:  BEFORE; sp--; mem[sp-1] = mem[sp-1]  > mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_EQ:  BEFORE; sp--; mem[sp-1] = mem[sp-1] == mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_NE:  BEFORE; sp--; mem[sp-1] = mem[sp-1] != mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_LE:  BEFORE; sp--; mem[sp-1] = mem[sp-1] <= mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_GE:  BEFORE; sp--; mem[sp-1] = mem[sp-1] >= mem[sp] ? 1:0;           AFTER; DISPATCH;
+		_RET: BEFORE; ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];                    AFTER; DISPATCH;
+		_HLT: BEFORE; ip-=2; goto _STOP;                                                      
+		// EXT                                                                                
+		_DOT: BEFORE; printf("%d\n",mem[sp-1]);                               AFTER; DISPATCH;
+		_AST: BEFORE;                                                                         
+			sp--;                                                                             
+			if (mem[sp-1]==mem[sp]) {                                                         
+				sp--;                                                         AFTER; DISPATCH;
+			} else {                                                                          
+				printf("ERROR: expected %d got %d instead\n",                                 
+				       mem[sp],mem[sp-1]);                                                    
+				goto _STOP;                                                                   
+			}                                                                                 
+		_ARG: BEFORE;                                                                         
+			t = mem[sp-1];                                                                    
+			mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])) : 0;                         
+			//printf("DEBUG: ARG %d %s = %d\n", t, args[t], mem[sp-1]);                       
+			                                                                  AFTER; DISPATCH;
 	}
 	_STOP:
+	
 	end = clock();
-	double dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
-	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n",ip,sp,rp,fp,ic,dt_ms, sp>0?mem[sp-1]:0);
+	dt_ms = 1000*((double)(end-start)) / CLOCKS_PER_SEC;
+	printf("STATUS: ip %d sp %d rp %d fp %d ic %lld dt %0.0f ms tos %d\n", ip,sp,rp,fp,ic,dt_ms, sp>0?mem[sp-1]:0);
+	
 	free(mem);
 	return ic;
 }
