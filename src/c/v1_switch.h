@@ -1,4 +1,7 @@
 
+#define BEFORE
+#define AFTER
+
 long long run(int* code, int n, int mem_size, int code_size) {
 	int ip = 0;  // instruction pointer
 	int sp = 0;  // stack pointer
@@ -17,7 +20,7 @@ long long run(int* code, int n, int mem_size, int code_size) {
 
 		int op = code[ip];
 		int a = code[ip+1];
-
+		BEFORE;
 		switch (op) {
 			case LIT: mem[sp++]=a;           ip+=2; break;
 			case LOD: mem[sp++]=mem[fp-a];   ip+=2; break;
@@ -69,6 +72,7 @@ long long run(int* code, int n, int mem_size, int code_size) {
 				}
 				break;
 		}
+		AFTER;
 	}
 	_STOP:
 	end = clock();
