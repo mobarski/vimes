@@ -15,7 +15,17 @@
 | 7    | [**Matrix Multiplication**](http://dada.perl.it/shootout/matrix_details.html) |            |                      | arrays, loops             |
 | 8    | [**Heapsort**](http://dada.perl.it/shootout/heapsort_details.html) |            |                      | ???                       |
 
+# Results
+
+| #    | CPU                    | Compilers                | Results                       |
+| ---- | ---------------------- | ------------------------ | ----------------------------- |
+| 1    | Intel i5-4590 @ 3.3GHz | gcc 11.3.0 -- tcc 0.9.27 | [results](bench/report_m1.md) |
+|      |                        |                          |                               |
+|      |                        |                          |                               |
 
 
-[report1](bench/report_1672766337.md)
+
+
+
+
 
