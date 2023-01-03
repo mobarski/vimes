@@ -15,3 +15,7 @@
 | 7    | [**Matrix Multiplication**](http://dada.perl.it/shootout/matrix_details.html) |            |                      | arrays, loops             |
 | 8    | [**Heapsort**](http://dada.perl.it/shootout/heapsort_details.html) |            |                      | ???                       |
 
+
+
+[report1](bench/report_1672766337.md)
+

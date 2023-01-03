@@ -41,7 +41,6 @@ if __name__=="__main__":
 		bench('v1_switch_tcc',      'arrays', [5000], repeat=R, mem_size=12_000)
 		bench('v1_repl_switch_gcc', 'arrays', [5000], repeat=R, mem_size=12_000)
 		bench('v1_repl_switch_tcc', 'arrays', [5000], repeat=R, mem_size=12_000)
-		exit()
 	
 	# ACKERMANN
 	if 1:
@@ -126,7 +125,7 @@ if __name__=="__main__":
 		bench('v1_switch_gcc',        'loops6',         [14],  repeat=R)
 		bench('v1_repl_switch_tcc',   'loops6',         [14],  repeat=R)
 		bench('v1_repl_switch_gcc',   'loops6',         [14],  repeat=R)
-	if 1:
+	if 0:
 		#bench('v1_vm_python',        'loops6',         [6],   repeat=R)
 		bench('v1_repl_switch_gcc', 'loops6',         [6],   repeat=R)
 		#bench('v1_vm_python',        'loops6_inc',     [6],   repeat=R)

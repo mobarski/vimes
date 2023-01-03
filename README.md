@@ -2,7 +2,7 @@
 
 **Vimes** is a collection of virtual machines (VMs) and related resources for studying their performance, ease of implementation, and ease of use. This sandbox includes a variety of VMs with different architectures, dispatch techniques, implementations, and assemblers, as well as benchmarks and utilities to help measure and compare their characteristics.
 
-**Warning**: this is pre-alpha code.
+**Warning**: this is experimental / pre-alpha code.
 
 # Architectures
 
@@ -21,18 +21,30 @@ Stack machine inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/
 - new instruction (EXT) that extends VM with new functionality
   - AST - assert equal (for easier testing)
   - ARG - get value of command-line program argument (for easier parametrization)
+  - ARR, GET, SET - array operations
 
 # Dispatch techniques
 
-## 1. Switch-based
+1. ✅ Switch-based
+   - poor performance
+   - simplest code
 
-## 2. Replicated switch
+2. ✅ Replicated switch
+   - performance just slightly better than switch-based
+   - largest binary
+   - requires code replication
 
-## 3. Direct threading
+3. ✅ Direct threading
+   - best performance 🏆
+   - requires code translation into native addresses
+   - requires support for "labels as values" in the compiler
 
-## 4. Indirect threading
+4. ✅ Indirect threading
+   - good performance
+   - requires support for "labels as values" in the compiler
 
-## 5. Call-based
+5.  ❌Call-based
+   - NOT IMPLEMENTED YET
 
 # Details
 
@@ -73,6 +85,9 @@ Stack machine inspired mostly by [p-code machine](https://en.wikipedia.org/wiki/
 - **AST** - assert equal (a b --)
 - **DOT** - print top-of-stack (a -- a)
 - **ARG** - load program parameter (a -- b)
+- **ARR** - allocate array of *a* items on the return stack and return it's reference (a -- b)
+- **GET** - get value from memory cell *a* (a -- b)
+- **SET** - set memory cell *b* to value *a* (a b --)
 
 
 
