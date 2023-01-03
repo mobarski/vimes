@@ -40,6 +40,9 @@
 				case DOT: goto _DOT; \
 				case AST: goto _AST; \
 				case ARG: goto _ARG; \
+				case ARR: goto _ARR; \
+				case GET: goto _GET; \
+				case SET: goto _SET; \
 			} \
 	}
 
@@ -89,6 +92,9 @@ long long run(int* code, int n, int mem_size, int code_size) {
 		_RET: BEFORE; ip=mem[fp+1]; rp=fp+2; fp=mem[fp+2];                    AFTER; DISPATCH;
 		_HLT: BEFORE; ip-=2; goto _STOP;                                                      
 		// EXT                                                                                
+		_ARR: BEFORE; rp-=mem[sp-1]; mem[sp-1]=rp+1;                          AFTER; DISPATCH;
+		_GET: BEFORE; mem[sp-1] = mem[mem[sp-1]];                             AFTER; DISPATCH;
+		_SET: BEFORE; mem[mem[sp-1]] = mem[sp-2];                      sp-=2; AFTER; DISPATCH;
 		_DOT: BEFORE; printf("%d\n",mem[sp-1]);                               AFTER; DISPATCH;
 		_AST: BEFORE;                                                                         
 			sp--;                                                                             

@@ -29,6 +29,19 @@ if __name__=="__main__":
 	print('','--','---','----','-------','-------','-----','----','----','-------','',sep=' | ')
 	
 	R = 10
+	# ARRAYS
+	if 1:
+		bench('v1_direct_gcc',      'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_direct_tcc',      'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_direct2_gcc',     'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_direct2_tcc',     'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_indirect_gcc',    'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_indirect_tcc',    'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_switch_gcc',      'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_switch_tcc',      'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_repl_switch_gcc', 'arrays', [5000], repeat=R, mem_size=12_000)
+		bench('v1_repl_switch_tcc', 'arrays', [5000], repeat=R, mem_size=12_000)
+		exit()
 	
 	# ACKERMANN
 	if 1:

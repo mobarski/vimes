@@ -12,19 +12,24 @@
 #define BEFORE
 #define AFTER
 
+int ip = 0;        // instruction pointer
+int sp = 0;        // stack pointer
+int rp;            // return stack pointer (ret-stack grows down)
+int fp;            // frame pointer
+long long ic = 0;  // instruction counter (64-bit)
+int *mem = NULL;
+
+clock_t start;
+clock_t end;
+double dt_ms;
+
 long long run(int* code, int n, int mem_size, int code_size) {
 	setbuf(stdout, NULL);
 	
-	int ip = 0;          // instruction pointer
-	int sp = 0;          // stack pointer
-	int rp = mem_size-1; // return stack pointer (ret-stack grows down)
-	int fp = rp;         // frame pointer
-	long long ic = 0;    // instruction counter (64-bit)
-	int *mem = calloc(mem_size, sizeof(int));
-	
-	clock_t start = clock();
-	clock_t end;
-	double dt_ms;
+	rp = mem_size-1;
+	fp = rp;
+	mem = calloc(mem_size, sizeof(int));
+	start = clock();
 	
 	int t; // temporary value (ie for top-of-stack)
 	

@@ -11,7 +11,7 @@ char* args[]    = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 // === CORE =======================================================================================================================
 
 #ifndef CORE
-	#error CORE parameter must be set to 1|2|3|4
+	#error CORE parameter must be set to 1|2|3|4|32
 #endif
 
 #if CORE==1
@@ -22,6 +22,8 @@ char* args[]    = {"P0","P1","P2","P3","P4","P5","P6","P7"};
 	#include "v1_direct.h"
 #elif CORE==4
 	#include "v1_indirect.h"
+#elif CORE==32
+	#include "v1_direct2.h"
 #else
 	#error Unknown CORE id
 #endif

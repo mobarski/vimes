@@ -37,6 +37,9 @@ GE=15
 AST=0
 DOT=1
 ARG=2
+ARR=3
+GET=4
+SET=5
 
 # EMIT (single char)
 
@@ -83,7 +86,8 @@ class VM:
 			op  = self.code[self.ip]
 			arg = self.code[self.ip+1]
 			if self.trace:
-				print('ic', self.ic, 'ip', self.ip, 'sp', self.sp, 'rp', self.rp, self.name_by_op[op], arg, 'stack', self.mem[0:self.sp])
+				#print('ic', self.ic, 'ip', self.ip, 'sp', self.sp, 'rp', self.rp, self.name_by_op[op], arg, 'stack', self.mem[0:self.sp])
+				print('ic', self.ic, 'ip', self.ip, 'sp', self.sp, 'rp', self.rp, self.name_by_op[op], arg, 'mem', self.mem)
 			self.fun_by_op[op](arg)
 			if n and self.ic >= n:
 				break
@@ -192,6 +196,21 @@ class VM:
 		self.sp -= 2
 		if self.mem[self.sp] != self.mem[self.sp+1]:
 			print(f'ERROR: expected {self.mem[self.sp+1]} (got {self.mem[self.sp]})')
+	
+	def ext_arr(self):
+		'allocate array on ret-stack'
+		self.rp -= self.mem[self.sp-1]
+		self.mem[self.sp-1] = self.rp+1
+	
+	def ext_get(self):
+		tos = self.mem[self.sp-1]
+		self.mem[self.sp-1] = self.mem[tos]
+	
+	def ext_set(self):
+		self.sp -= 2
+		a = self.mem[self.sp]
+		b = self.mem[self.sp+1]
+		self.mem[b] = a
 
 if __name__=="__main__":
 	vm = VM([])

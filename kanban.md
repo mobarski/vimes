@@ -25,6 +25,9 @@
 
 ## Done
 
+- bench: arrays
+- test: arrays
+- arrays: EXT ARR | GET  | SET
 - c: BEFORE / AFTER macros
 - c: VM core into separate file
 - first benchmarks

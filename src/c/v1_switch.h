@@ -53,6 +53,9 @@ long long run(int* code, int n, int mem_size, int code_size) {
 			case EXT:
 				ip+=2;
 				switch (a) {
+					case ARR: rp-=mem[sp-1]; mem[sp-1]=rp+1;                  break;
+					case GET: mem[sp-1] = mem[mem[sp-1]];                     break;
+					case SET: mem[mem[sp-1]] = mem[sp-2];              sp-=2; break;
 					case DOT: printf("%d\n",mem[sp-1]); break;
 					case AST:
 						sp--;

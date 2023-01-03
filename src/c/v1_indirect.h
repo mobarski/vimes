@@ -33,7 +33,7 @@ long long run(int* code, int n, int mem_size, int code_size) {
 	
 	void* P_INS[] = {&&_LIT,&&_OPR,&&_LOD,&&_STO,&&_CAL,&&_JMP,&&_JZ,&&_JNZ,&&_INT,&&_EXT,&&_INC};
 	void* P_OPR[] = {&&_HLT,&&_RET,&&_ADD,&&_SUB,&&_MUL,&&_DIV,&&_MOD,0,0,0,&&_LT,&&_GT,&&_EQ,&&_NE,&&_LE,&&_GE};
-	void* P_EXT[] = {&&_AST,&&_DOT,&&_ARG};
+	void* P_EXT[] = {&&_AST,&&_DOT,&&_ARG,&&_ARR,&&_GET,&&_SET};
 	
 	#define NEXT  ic++; goto *P_INS[code[ip]]
 	#define a     code[ip+1]
@@ -71,6 +71,9 @@ long long run(int* code, int n, int mem_size, int code_size) {
 	_HLT: BEFORE; goto _STOP;
 	
 	// EXT
+	_ARR: BEFORE; rp-=mem[sp-1]; mem[sp-1]=rp+1;                                   ip+=2; AFTER; NEXT;
+	_GET: BEFORE; mem[sp-1] = mem[mem[sp-1]];                                      ip+=2; AFTER; NEXT;
+	_SET: BEFORE; mem[mem[sp-1]] = mem[sp-2];                               sp-=2; ip+=2; AFTER; NEXT;
 	_ARG: BEFORE; t = mem[sp-1];
 	              mem[sp-1] = ((t>=0)&&(t<=7)) ? atoi(getenv(args[t])):0;          ip+=2; AFTER; NEXT;
 	_DOT: BEFORE; printf("%d\n",mem[sp-1]);                                        ip+=2; AFTER; NEXT;

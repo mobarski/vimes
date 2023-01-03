@@ -20,6 +20,77 @@ def load(path):
 
 ##################################################################################
 
+test('arrays',"""
+INT 5
+LIT 3 STO 0 ; n:0 = 3
+LOD 0 EXT ARR STO 1 ; x:1
+LOD 0 EXT ARR STO 2 ; y:2
+
+LIT 0 STO 3 ; i:3 = 0
+loop1:
+	LOD 3 LIT 1 OPR ADD ; i+1
+	LOD 1 LOD 3 OPR ADD EXT SET ; x[i] = _
+	INC 3 1 LOD 3 LOD 0 OPR LT JNZ @loop1 ; next i
+
+LIT 0 STO 4 ; k:4 = 0
+loop2:
+	
+	LOD 0 LIT 1 OPR SUB STO 3 ; i:3 = n-1
+	loop3:
+		LOD 1 LOD 3 OPR ADD EXT GET ; x[i]
+		LOD 2 LOD 3 OPR ADD EXT GET ; y[i]
+		OPR ADD
+		LOD 2 LOD 3 OPR ADD EXT SET ; y[i] += _
+		INC 3 -1 LOD 3 LIT -1 OPR GT JNZ @loop3 ; next i
+	
+	INC 4 1 LOD 4 LIT 5 OPR LT JNZ @loop2 ; next k
+
+OPR HLT
+""",mem_size=20,trace=True,n=1000)
+exit()
+
+test('',"""
+	INT 2
+	LIT 4 EXT ARR STO 0
+	LOD 0 STO 1
+	LIT 11 LOD 1 EXT SET INC 1 1
+	LIT 22 LOD 1 EXT SET INC 1 1
+	LIT 33 LOD 1 EXT SET INC 1 1
+	LIT 44 LOD 1 EXT SET INC 1 1
+	OPR HLT
+""",mem_size=10,trace=True)
+
+test('',"""
+	INT 1
+	LIT 4 EXT ARR STO 0
+	LIT 11 LOD 0 LIT 0 OPR ADD EXT SET
+	LIT 22 LOD 0 LIT 1 OPR ADD EXT SET
+	LIT 33 LOD 0 LIT 2 OPR ADD EXT SET
+	LIT 44 LOD 0 LIT 3 OPR ADD EXT SET
+	OPR HLT
+""",mem_size=10,trace=True)
+
+test('',"""
+	INT 1
+	LIT 3 ARR 0
+	LIT 11 LIT 0 SET 0 ; a[0] = 11
+	LIT 22 LIT 1 SET 0 ; a[1] = 22
+	LIT 33 LIT 2 SET 0 ; a[2] = 33
+	OPR HLT
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+""",mem_size=10,trace=True)
+
+exit()
+
 test('inc',"""
 	INT 10
 	LIT 10 STO 1

@@ -25,3 +25,6 @@
 #define AST 0
 #define DOT 1
 #define ARG 2
+#define ARR 3
+#define GET 4
+#define SET 5
